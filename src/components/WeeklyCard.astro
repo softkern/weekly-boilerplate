@@ -1,0 +1,104 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { formatDate } from '@utils/date'
+import { getReadingTime } from '@utils/reading-time'
+
+type Props = CollectionEntry<'weekly'>
+
+const { slug, data, body } = Astro.props
+const { title, description, issue, date } = data
+const readingTime = getReadingTime(body) || ''
+---
+
+<article class="group relative p-6 -mx-6 rounded-xl transition-all hover:bg-white hover:shadow-sm">
+  <div class="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity">
+    <div class="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-blue-500"></div>
+    <div class="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-blue-500"></div>
+    <div class="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-blue-500"></div>
+    <div class="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-blue-500"></div>
+  </div>
+
+  <a href={`/weekly/${slug}`} class="block relative">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <time 
+          datetime={date}
+          class="shrink-0 px-3 py-1 text-sm bg-white text-gray-600 rounded-full tabular-nums tracking-wider shadow-sm border border-gray-100 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors"
+        >
+          {formatDate(date)}
+        </time>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="shrink-0 px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded border border-blue-200 group-hover:bg-blue-200 group-hover:border-blue-300 transition-colors">
+            第 {issue} 期
+          </span>
+          <span class="shrink-0 text-sm text-gray-500 group-hover:text-gray-700">
+            · {readingTime}
+          </span>
+          <div class="h-px flex-grow bg-gradient-to-r from-gray-200 to-transparent group-hover:from-blue-100 transition-colors"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 space-y-2">
+      <h2 class="text-xl font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+        {title}
+      </h2>
+      {description && (
+        <p class="text-gray-600 line-clamp-2 group-hover:text-gray-700 transition-colors">
+          {description}
+        </p>
+      )}
+    </div>
+
+    <div class="mt-4 flex items-center justify-end">
+      <div class="flex items-center text-sm text-gray-500 group-hover:text-blue-600 transition-colors">
+        <span>阅读全文</span>
+        <svg 
+          class="w-4 h-4 ml-1 transform group-hover:translate-x-0.5 transition-transform" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M13 7l5 5m0 0l-5 5m5-5H6"
+          />
+        </svg>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  article {
+    --uno: "transition-all duration-200 ease-out";
+  }
+
+  article + article {
+    --uno: "mt-6";
+  }
+
+  @media (max-width: 640px) {
+    article {
+      --uno: "p-4 -mx-4";
+    }
+  }
+
+  article:hover {
+    transform: translateY(-1px);
+  }
+
+  .absolute.top-0.left-0.w-2.h-2,
+  .absolute.top-0.right-0.w-2.h-2,
+  .absolute.bottom-0.left-0.w-2.h-2,
+  .absolute.bottom-0.right-0.w-2.h-2 {
+    --uno: "transition-all duration-200";
+  }
+
+  article:hover .absolute.top-0.left-0.w-2.h-2 { transform: translate(-1px, -1px); }
+  article:hover .absolute.top-0.right-0.w-2.h-2 { transform: translate(1px, -1px); }
+  article:hover .absolute.bottom-0.left-0.w-2.h-2 { transform: translate(-1px, 1px); }
+  article:hover .absolute.bottom-0.right-0.w-2.h-2 { transform: translate(1px, 1px); }
+</style> 

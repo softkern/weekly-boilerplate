@@ -1,5 +1,5 @@
 {
-  "name": "astro-nano-starter",
+  "name": "weekly-boilerplate",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -14,7 +14,12 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.0.2",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/sitemap": "^3.2.1",
+    "@playform/compress": "^0.1.6",
     "astro": "^5.0.4",
+    "astro-expressive-code": "^0.38.3",
     "typescript": "^5.7.2"
   },
   "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
@@ -23,8 +28,12 @@
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@unocss/reset": "0.65.0-beta.2",
+    "dayjs": "^1.11.13",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
+    "mdast-util-from-markdown": "^2.0.2",
+    "mdast-util-to-string": "^4.0.0",
+    "reading-time": "^1.5.0",
     "unocss": "0.65.0-beta.2"
   },
   "lint-staged": {

@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content'
+import TagComponent from '@components/Tag.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { fetchTags, fetchWeekly } from '@utils/weekly'
+import type { GetStaticPaths } from 'astro'
+import WeeklyCard from '../../components/WeeklyCard.astro'
+
+export const getStaticPaths = (async () => {
+  const weeklies = await fetchWeekly()
+
+  const tags = await fetchTags()
+  const uniqueTags = tags.map((item) => item[0])
+
+  return uniqueTags.map((tag) => {
+    const filteredWeeklies = weeklies.filter((weekly) => weekly.data.tags?.includes(tag))
+    return {
+      params: { tag },
+      props: { posts: filteredWeeklies },
+    }
+  })
+}) satisfies GetStaticPaths
+
+const { tag } = Astro.params
+const { posts } = Astro.props
+const allTags = await fetchTags()
+---
+
+<BaseLayout title={`标签 - ${tag}`}>
+  <div class="py-8">
+    <h1 class="text-3xl font-medium text-gray-900 mb-8">
+      标签：{tag}
+    </h1>
+
+    <div class="mb-8">
+      <div class="flex flex-wrap gap-3">
+        {Array.from(allTags).map(([name, count]) => (
+          <TagComponent
+            name={name}
+            count={count}
+            href={`/tags/${name}`}
+            selected={name === tag}
+            size="md"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      {posts.map(weekly => (
+        <WeeklyCard
+          {...weekly}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout> 

@@ -1,0 +1,44 @@
+---
+import Card from '@components/Card.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+
+const stats = [
+  { label: '周刊期数', value: '50+' },
+  { label: '订阅用户', value: '1000+' },
+  { label: '开源项目', value: '10+' },
+]
+---
+
+<BaseLayout title="关于">
+  <div class="py-8">
+    <h1 class="text-3xl font-medium text-gray-900 mb-8">关于周刊</h1>
+      
+    <div class="prose max-w-none">
+      <p class="lead">
+        这一个专注于分享高质量技术内容的周刊，每周精选最新的技术文章、开源项目和开发工具等等。
+      </p>
+
+      <h2>为什么要做这个周刊</h2>
+      <p>
+        在信息爆炸的时代，找到真正有价值的技术内容并不容易。我们希望通过这个周刊，为开发者提供一个获取优质技术资讯的渠道。
+      </p>
+
+      <h2>主要内容的来源</h2>
+      <ul>
+        <li>优质技术博客</li>
+        <li>开源社区</li>
+        <li>技术会议</li>
+        <li>读者推荐</li>
+      </ul>
+    </div>
+
+    <div class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3">
+      {stats.map(({ label, value }) => (
+        <Card class="p-4 text-center">
+          <dt class="text-sm text-gray-600">{label}</dt>
+          <dd class="mt-1 text-2xl font-medium text-gray-900">{value}</dd>
+        </Card>
+      ))}
+    </div>
+  </div>
+</BaseLayout> 

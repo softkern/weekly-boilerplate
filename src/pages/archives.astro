@@ -1,0 +1,35 @@
+---
+import WeeklyCard from '@components/WeeklyCard.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { fetchWeeklyByYear } from '@utils/weekly'
+
+const weeklyByYear = await fetchWeeklyByYear()
+const years = weeklyByYear.keys()
+---
+
+<BaseLayout title="归档">
+  <div class="py-8">
+    <h1 class="text-3xl font-medium text-gray-900 mb-8">归档</h1>
+
+    <div class="space-y-12">
+      {years.map(year => (
+        <section>
+          <h2 class="text-2xl font-medium text-gray-900 mb-6">
+            {year}
+            <span class="text-gray-500 text-lg ml-2">
+              ({weeklyByYear.get(year)?.length} 篇)
+            </span>
+          </h2>
+          
+          <div class="space-y-8">
+            {weeklyByYear.get(year)?.map(post => (
+              <WeeklyCard
+                {...post}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

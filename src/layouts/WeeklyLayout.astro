@@ -1,0 +1,58 @@
+---
+import ReadingProgress from '@components/ReadingProgress.astro'
+import ShareButtons from '@components/ShareButtons.astro'
+import TableOfContent from '@components/TableOfContent.astro'
+import Tag from '@components/Tag.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { formatDate } from '@utils/date'
+
+const { entry, headings } = Astro.props
+const { title, date, tags, description } = entry.data
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  article={true}
+  publishDate={new Date(date)}
+>
+  <ReadingProgress />
+  
+  <div class="py-8">
+    <div class="lg:flex lg:gap-12">
+      <article class="flex-grow">
+        <header class="mb-8">
+          <time class="text-sm text-gray-500">
+            {formatDate(date)}
+          </time>
+          
+          <h1 class="mt-2 text-3xl font-medium text-gray-900">
+            {title}
+          </h1>
+          
+          {tags && (
+            <div class="mt-4 flex flex-wrap gap-2">
+              {tags.map((tag: string) => (
+                <Tag name={tag} href={`/tags/${tag}`} />
+              ))}
+            </div>
+          )}
+        </header>
+
+        <div class="prose prose-blue max-w-none">
+          <slot />
+        </div>
+
+        <footer class="mt-8 pt-8 border-t">
+          <ShareButtons />
+        </footer>
+      </article>
+
+      <aside class="hidden lg:block lg:w-36 space-y-8">
+        <div class="sticky top-24">
+          <TableOfContent headings={headings} />
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

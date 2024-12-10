@@ -1,0 +1,24 @@
+---
+import TagComponent from '@components/Tag.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { fetchTags } from '@utils/weekly'
+
+const tags = await fetchTags()
+---
+
+<BaseLayout title="标签">
+  <div class="py-8">
+    <h1 class="text-3xl font-medium text-gray-900 mb-8">标签</h1>
+    
+    <div class="flex flex-wrap gap-3">
+      {tags.map(([tag, count]) => (
+        <TagComponent
+          name={tag}
+          count={count}
+          href={`/tags/${tag}`}
+          size="md"
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

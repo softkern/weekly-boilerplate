@@ -1,0 +1,21 @@
+---
+import { fetchWeekly } from '@utils/weekly'
+import type { GetStaticPaths } from 'astro'
+import WeeklyLayout from '../../layouts/WeeklyLayout.astro'
+
+export const getStaticPaths = (async () => {
+  const weeklies = await fetchWeekly()
+  return weeklies.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}) satisfies GetStaticPaths
+
+const { entry } = Astro.props
+const { Content, headings } = await entry.render()
+---
+
+<WeeklyLayout entry={entry} headings={headings}>
+  <Content />
+</WeeklyLayout> 
+

@@ -1,0 +1,40 @@
+---
+interface Props {
+  name: string
+  count?: number
+  size?: 'sm' | 'md'
+  href?: string
+  selected?: boolean
+}
+
+const { name, count, size = 'md', href, selected = false } = Astro.props
+
+const sizes = {
+  sm: 'px-2.5 py-0.5 text-xs',
+  md: 'px-3 py-1 text-sm',
+}
+
+const Element = href ? 'a' : 'span'
+---
+
+<Element
+  href={href}
+  class:list={[
+    'inline-flex items-center gap-1.5 rounded-full font-medium transition-colors',
+    sizes[size],
+    selected
+      ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+      : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+    href && 'hover:cursor-pointer'
+  ]}
+>
+  {name}
+  {count !== undefined && (
+    <span class:list={[
+      'rounded-full px-1.5',
+      selected ? 'bg-blue-200' : 'bg-gray-200'
+    ]}>
+      {count}
+    </span>
+  )}
+</Element> 

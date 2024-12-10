@@ -1,0 +1,26 @@
+---
+---
+
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 right-0 h-1 bg-blue-500 origin-left scale-x-0 transition-transform z-50"
+>
+</div>
+
+<script>
+  const progressBar = document.getElementById('reading-progress');
+  
+  if (progressBar) {
+    window.addEventListener('scroll', () => {
+      const docElement = document.documentElement;
+      const docBody = document.body;
+      
+      const scrollTop = docElement.scrollTop || docBody.scrollTop;
+      const scrollHeight = docElement.scrollHeight || docBody.scrollHeight;
+      const clientHeight = docElement.clientHeight;
+      
+      const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+      progressBar.style.transform = `scaleX(${scrollPercentage / 100})`;
+    });
+  }
+</script> 

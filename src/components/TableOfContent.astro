@@ -1,0 +1,89 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+interface Props {
+  headings: MarkdownHeading[]
+}
+
+const { headings } = Astro.props
+const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3)
+---
+
+{toc.length > 0 && (
+  <nav class="space-y-2 text-sm">
+    <p class="font-medium text-gray-900 mb-4">目录</p>
+    {toc.map(heading => (
+      <a
+        href={`#${heading.slug}`}
+        class:list={[
+          'block text-gray-600 hover:text-gray-900 transition-colors',
+          heading.depth === 3 && 'pl-4'
+        ]}
+      >
+        {heading.text}
+      </a>
+    ))}
+  </nav>
+)}
+
+<script>
+  const links = document.querySelectorAll('nav a');
+  
+  const observerOptions = {
+    rootMargin: '-70px 0px -70% 0px'
+  };
+  
+  const headingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = document.querySelector(`nav a[href="#${id}"]`);
+      
+      if (link) {
+        if (entry.isIntersecting) {
+          link.classList.add('text-blue-600', 'font-medium');
+        } else {
+          link.classList.remove('text-blue-600', 'font-medium');
+        }
+      }
+    });
+  }, observerOptions);
+  
+  document.querySelectorAll('h2, h3').forEach((heading) => {
+    headingObserver.observe(heading);
+  });
+  
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = link.getAttribute('href')?.slice(1);
+      const element = document.getElementById(id!);
+      
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .toc {
+    scrollbar-width: thin;
+    scrollbar-color: #E5E7EB transparent;
+  }
+  
+  .toc::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .toc::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .toc::-webkit-scrollbar-thumb {
+    background-color: #E5E7EB;
+    border-radius: 2px;
+  }
+</style> 

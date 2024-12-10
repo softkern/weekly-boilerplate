@@ -1,0 +1,29 @@
+---
+
+---
+
+<button id="back-to-top" class="fixed bottom-8 right-8 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg opacity-0 invisible transition-all hover:bg-white">
+  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+  </svg>
+</button>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const backToTop = document.querySelector('#back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop?.classList.remove('opacity-0', 'invisible');
+        backToTop?.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop?.classList.add('opacity-0', 'invisible');
+        backToTop?.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTop?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })
+</script>

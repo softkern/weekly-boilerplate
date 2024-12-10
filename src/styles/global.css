@@ -1,0 +1,19 @@
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  --uno: "bg-blue-100";
+}
+
+::-webkit-scrollbar {
+  --uno: "w-2";
+}
+
+::-webkit-scrollbar-track {
+  --uno: "bg-transparent";
+}
+
+::-webkit-scrollbar-thumb {
+  --uno: "bg-gray-200 rounded-full hover:bg-gray-300 transition-colors";
+}
